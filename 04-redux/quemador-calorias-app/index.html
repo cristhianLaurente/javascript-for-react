@@ -87,8 +87,6 @@
                     burn2: state.burn2 - 1.42 , 
                     burn: state.burn + 1.42 
                 } 
-            case "BURN2":
-                return { ...state }
             default:
                 return state
         }
@@ -109,15 +107,11 @@
             type: "BURN",
             payload: 1.42
         })
-            window.result.textContent = `Haz quemado ${store.getState().burn} calorias`
+        window.result.textContent = `Haz quemado ${store.getState().burn} calorias`
     }
 
     const burn2 = () => {
-        store.dispatch({
-            type: "BURN2",
-            payload: 1.42            
-        })
-            window.result2.textContent = `Te Faltan quemar ${store.getState().burn2} calorias`
+        window.result2.textContent = `Te Faltan quemar ${store.getState().burn2} calorias`
     }
 
     window.burn.addEventListener('click', burn)
