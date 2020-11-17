@@ -83,9 +83,12 @@
         
         switch(action?.type) {
             case "BURN":
-                return { ...state, burn: state.burn + 1.42 } 
+                return { 
+                    burn2: state.burn2 - 1.42 , 
+                    burn: state.burn + 1.42 
+                } 
             case "BURN2":
-                return { ...state, burn2: state.burn2 - 1.42 }
+                return { ...state }
             default:
                 return state
         }
@@ -95,11 +98,10 @@
     // store.getState()
     // store.suscribe()
     
-    store.suscribe(() => {
-        console.log("ha cambiado algo en el store", store.getState())
-        window.result.textContent = `Haz quemado ${store.getState().burn} calorias`
-        window.result2.textContent = `Te Faltan quemar ${store.getState().burn2} calorias`
-    })
+    // store.suscribe(() => {
+    //     window.result.textContent = `Haz quemado ${store.getState().burn} calorias`
+    //     window.result2.textContent = `Te Faltan quemar ${store.getState().burn2} calorias`
+    // })
     
 
     const burn = () => {
@@ -107,6 +109,7 @@
             type: "BURN",
             payload: 1.42
         })
+            window.result.textContent = `Haz quemado ${store.getState().burn} calorias`
     }
 
     const burn2 = () => {
@@ -114,6 +117,7 @@
             type: "BURN2",
             payload: 1.42            
         })
+            window.result2.textContent = `Te Faltan quemar ${store.getState().burn2} calorias`
     }
 
     window.burn.addEventListener('click', burn)
