@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled Componets</title>
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <script>
+        function component(strings, ...dynamicValues) {
+
+            return function (props) {
+                // usamos slice() para hacer un copy en memoria y poder mutarlo más adelante
+                let newContent = strings.slice()
+                dynamicValues.forEach((value, index) => {
+                    newContent[index] += props[value]
+                })
+                return newContent.join("")
+            }
+        }
+
+        function render(component, container) {
+            container.innerHTML = component
+        }
+
+        function createStyledApi(htmlTag) {
+            return (styles) => (content) => `
+                <${htmlTag} style="${styles}">${content}</${htmlTag}>
+            `
+        }
+
+        const tags = ["h1","h2","h3","p","div"];
+
+        function createObjectStyled(tags) {
+            return tags.reduce((acc, tag) => {
+                // acc -> valor inicial {}
+                let attr = tag
+                let newObj = { ...acc }
+                newObj[attr] = createStyledApi(tag)
+                return newObj
+            },{});
+        } 
+
+        const styledApi = createObjectStyled(tags);
+        console.log(styledApi)
+
+        const TitleStyled = styledApi.h3`
+            color: orange;
+            font-family: system-ui;
+            font-size: 50px;
+            line-height: 100vh
+            text-shadow: 2px 2px 0 black;
+        `
+
+        const props = {
+            firstName: "Cristhian",
+            lastName: "Laurente"
+        }
+
+        const TitleContent = component`Hola ${"firstName"} ${"lastName"} que tal`(props)
+
+
+        const TitleComponent = TitleStyled(TitleContent);
+        render(TitleComponent, window.container)
+    </script>
+</body>
+
+</html>
