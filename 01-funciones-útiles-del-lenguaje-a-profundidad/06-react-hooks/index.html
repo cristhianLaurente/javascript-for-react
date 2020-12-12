@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Destructuring</title>
+</head>
+
+<body>
+  <main class="profile">
+    <div class="wrapper">
+      <button class="button" id="update" >¿Cuántos años tiene Ash?</button>
+      <div class="profile-content" id="user">
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+      const user = {
+          name: "ASH",
+          lastName: "Ketchum",
+          avatar: "https://raw.githubusercontent.com/LeonidasEsteban/curso-javascript-react/6d1f4e1eaa6b048c72f8e33474c3e1be6cb42832/asignacion-desestructuracion/images/ash.jpg",
+          bio: "Tengo 10 años y mi sueño es convertirme en maestro pokemon. A",
+          city: "Pueblo Paleta",
+          social: [150,160,130,255]
+      }
+
+
+      function useState(initialState) {
+        let value = initialState
+
+        function state() {
+          return value
+        }
+        function setState(newValue) {
+          value = newValue
+        }
+        return [
+          state, 
+          setState
+        ]
+      }
+
+      function User({ name, lastName, avatar, city, bio: bio_, social }) {
+          const [ twitter, facebook, instagram, tiktok ] = social
+          const [age, setAge] = useState(10)
+          function render() {
+
+            const bio = bio_.replace("10", age)
+
+            return `
+              <div class="user">
+                  <img src="${avatar}" alt="${name}" width="140" height="140">
+                  <div class="details">
+                    <p> ${name} ${lastName}</p>
+                  </div>
+                  <p class="city"><em>${city}</em></p>
+                  <div class="social">
+                    <p>
+                      ${twitter}
+                    </p>
+                    <p>
+                      ${facebook}
+                    </p>
+                    <p>
+                      ${instagram}
+                    </p>
+                    <p>
+                      ${tiktok}
+                    </p>
+                  </div>
+                  <div class="bio">
+                    <p> ${bio} </p>
+                  </div>
+              </div>
+            `
+        }
+          return {
+            render,
+            setAge
+          }
+      }
+
+      const ash =  User(user)
+
+      const ashFn = () => {
+        const newAge = window.prompt("¿Que edad tendrá Ash?", 10)
+        ash.setAge(newAge)
+        window.user.innerHTML = ash.render()
+      }
+      
+      window.user.innerHTML = ash.render()
+      window.update.addEventListener("click", ashFn )
+
+  </script>
+</body>
+
+</html> 
